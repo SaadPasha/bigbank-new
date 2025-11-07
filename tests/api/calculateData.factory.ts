@@ -1,4 +1,4 @@
-// src/api/loan-data.factory.ts
+// src/api/calculateData.factory.ts
 import {faker} from '@faker-js/faker';
 
 export type LoanCalculatorRequest = {

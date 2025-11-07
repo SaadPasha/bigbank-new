@@ -1,8 +1,8 @@
 import { test as base } from '@playwright/test';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
-import { LoanApi } from './loan-client';
-import { buildLoanRequest } from "./loan-data.factory";
+import { LoanApi } from './calculateClient';
+import { buildLoanRequest } from "./calculateData.factory";
 import {loanCalculatorRequestSchema, loanCalculateValidResponseSchema, loanCalculatorBadRequestSchema, loanCalculatorServerErrorSchema} from "./calculate.schema";
 
 const ajv = new Ajv({ allErrors: true, strict: false });

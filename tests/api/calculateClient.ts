@@ -1,5 +1,5 @@
 import type { APIRequestContext } from '@playwright/test';
-import type { LoanCalculatorRequest } from './loan-data.factory';
+import type { LoanCalculatorRequest } from './calculateData.factory';
 
 export class LoanApi {
     public loanUrl: string;
