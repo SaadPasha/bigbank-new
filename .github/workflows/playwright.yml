@@ -1,7 +1,18 @@
 name: Playwright E2E
 
 on:
-  workflow_dispatch: {}   # run manually from Actions tab
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   tests:
@@ -24,11 +35,36 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run tests
-        run: npx playwright test --reporter=html
+      - name: Setup Java (for Allure CLI)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
 
-      # Upload the HTML report (playwright-report/) as an artifact
-      - name: Upload HTML report
+      - name: Run tests
+        run: npx playwright test
+
+      - name: Fetch previous Allure history
+        run: |
+          git fetch origin gh-pages:gh-pages || true
+          git worktree add ghp gh-pages || true
+          if [ -d "ghp/history" ]; then
+            mkdir -p allure-results/history
+            cp -r ghp/history allure-results/history
+          fi
+
+      - name: Generate Allure report
+        run: npx allure generate allure-results --clean -o allure-report
+
+      - name: Verify report exists
+        run: |
+          ls -la
+          ls -la allure-report || (echo "allure-report missing" && exit 1)
+
+      - name: Add .nojekyll for Pages
+        run: touch allure-report/.nojekyll
+
+      - name: Upload HTML report (artifact)
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -36,7 +72,6 @@ jobs:
           path: playwright-report
           retention-days: 7
 
-      # Upload raw results (screenshots/videos/traces) if you want them too
       - name: Upload test results (failure assets)
         if: always()
         uses: actions/upload-artifact@v4
@@ -44,3 +79,22 @@ jobs:
           name: playwright-test-results
           path: test-results
           retention-days: 7
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Allure site (Pages artifact)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+          name: github-pages   # explicit, avoids ambiguity
+
+  deploy:
+    needs: tests
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
