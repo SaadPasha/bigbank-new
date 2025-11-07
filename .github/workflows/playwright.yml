@@ -73,6 +73,11 @@ jobs:
           path: playwright-report
           retention-days: 7
 
+      - name: Upload Allure site (Pages artifact)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+          name: github-pages
 #      # Upload raw results (screenshots/videos/traces) if you want them too
 #      - name: Upload test results (failure assets)
 #        if: always()
