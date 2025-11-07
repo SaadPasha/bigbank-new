@@ -35,7 +35,6 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # Allure CLI needs Java; ensure it’s present
       - name: Setup Java (for Allure CLI)
         uses: actions/setup-java@v4
         with:
@@ -45,7 +44,6 @@ jobs:
       - name: Run tests
         run: npx playwright test
 
-      # (Optional) Pull previous Pages history so Allure trend charts persist
       - name: Fetch previous Allure history
         run: |
           git fetch origin gh-pages:gh-pages || true
@@ -74,7 +72,6 @@ jobs:
           path: playwright-report
           retention-days: 7
 
-      # Optional: upload test-results
       - name: Upload test results (failure assets)
         if: always()
         uses: actions/upload-artifact@v4
