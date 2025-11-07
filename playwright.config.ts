@@ -12,6 +12,11 @@ import {defineConfig, devices} from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+    reporter: [
+      ['list'],
+      ['allure-playwright'],
+      ['html', {open: 'never'}]
+    ],
     testDir: './tests',
     /* Run tests in files in parallel */
     fullyParallel: true,
@@ -32,7 +37,7 @@ export default defineConfig({
         baseURL: "https://taotlus.bigbank.ee",
         trace: "retain-on-failure",
         headless: true,
-        screenshot: "on",
+        screenshot: "only-on-failure",
         video: "retain-on-failure"
     },
 
