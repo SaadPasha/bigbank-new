@@ -32,7 +32,7 @@ export default defineConfig({
     baseURL: "https://taotlus.bigbank.ee",
     trace: "retain-on-failure",
     headless: true,
-    screenshot: "only-on-failure",
+    screenshot: "on",
     video: "retain-on-failure"
   },
 
