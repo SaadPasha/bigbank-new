@@ -1,8 +1,7 @@
 # Bigbank – Test task (API & E2E Smoke tests)
 
 This repo contains the Automated test suite for the Loan Calculator application provided by the Bigbank.
-This is a web based application which is currently hosted at:
-https://taotlus.bigbank.ee/?amount=5000&period=60&productName=SMALL_LOAN&loanPurpose=DAILY_SETTLEMENTS.
+This is a web based application which is currently hosted [here](https://taotlus.bigbank.ee/?amount=5000&period=60&productName=SMALL_LOAN&loanPurpose=DAILY_SETTLEMENTS).
 The application basically provides the services for the user to add their desired loan amount for a certain period,
 and displays the required installment amount to be repaid every month.
 
@@ -10,9 +9,9 @@ The Loan Calculator app heavily relies on the API endpoint - which can be access
 The API endpoint is implemented using the REST architecture, and supports the POST method.
 
 This repo will add the Automated test cases (SMOKE level) - identified as the critical severity tests. Passing of these test can be 
-considered as a baseline for any changes to be introduced to the application.
+considered as a baseline for any changes to be introduced to the application. Full list of test scenarios and additional details can be found [here](https://docs.google.com/document/d/1WmMrHYtfqGN56xVeNKIP_xZo2pEAcWdTeIZfw-311jg/edit?usp=sharing)
 
-The test case scenarios are as follows:
+The tests in these repo are based on the following scenarios:
 
 ### End-to-End
 **Loan Calculation with Input variation:**
